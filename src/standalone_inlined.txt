@@ -446,14 +446,15 @@ a {
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 <body>
-<div class="title"><h1 id="gametitle">__GAMETITLE__</h1></div>
+<!--<div class="title"><h1 id="gametitle">__GAMETITLE__</h1></div>-->
 <div class="gameContainer">
 <canvas 
     id="gameCanvas" ></canvas>
 </div> 
 <div class="footer">
 <span id="errormessage" style="color:red;"></span>
-<a id="homepagelink" href="__HOMEPAGE__" target="_blank">__HOMEPAGE_STRIPPED_PROTOCOL__</a>
+<!--<a id="homepagelink" href="__HOMEPAGE__" target="_blank">__HOMEPAGE_STRIPPED_PROTOCOL__</a>-->
+<p>Arrows/WASD - walk &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Left mouse - create crate &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Z - undo &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; R - restart &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Esc - menu</p>
 </div>
 </div>
 <script>
@@ -7574,10 +7575,16 @@ function redrawCellGrid(curlevel) {
                             var dir = currentMovedEntities["p"+posIndex+"-l"+layerID];
 
                             if (dir != 16) { //Cardinal directions
-                                var delta = dirMasksDelta[dir];
-            
-                                x -= cellwidth*delta[0]*tween
-                                y -= cellheight*delta[1]*tween
+                                if (dir < 100) {
+                                    var delta = dirMasksDelta[dir];
+                                    x -= cellwidth*delta[0]*tween
+                                    y -= cellheight*delta[1]*tween
+                                }
+                                else {
+                                    var delta = dirMasksDelta[dir-100];
+                                    x += cellwidth/5*delta[0]*tween
+                                    y += cellheight/5*delta[1]*tween
+                                }
                             } else if (dir == 16) { //Action button
                                 ctx.globalAlpha = 1-tween;
                             }
@@ -7986,6 +7993,7 @@ EasingFunctions = {
       12: "easeOutQuint",
       13: "easeInOutQuint"
   }
+
 </script>
 <script>
 var onLevelRestarted = new Event("levelRestarted");
@@ -9381,6 +9389,10 @@ var dirMaskName = {
 	18: 'random',
 	32: 'lclick',
 	64: 'rclick',
+    101: 'bump_up',
+    102: 'bump_down',
+    104: 'bump_left',
+    108: 'bump_right',
 	// todo: ??: 'mclick',
 	// todo: ??: 'reaction',
 };
@@ -9397,6 +9409,10 @@ var dirMasks = {
 	'random': 18,
 	'lclick': 32,
 	'rclick': 64,
+    'bump_up': 101,
+    'bump_down': 102,
+    'bump_left': 104,
+    'bump_right': 108,
 	// todo: 'mclick': ??,
 	// todo: 'reaction': ??,
 	'': 0
@@ -9413,7 +9429,11 @@ var dirMasksDelta = {
 	16: [0, 0],
 	18: [0, 0],
 	32: [0, 0],
-	64: [0, 0]
+	64: [0, 0],
+	101: [0, -1],
+	102: [0, 1],
+	104: [0, 0],
+	108: [-1, 0],
 };
 
 // utility functions
@@ -9576,6 +9596,11 @@ function repositionEntitiesAtCell(positionIndex) {
 
                 movementMask.ishiftclear(layerMovement, MOV_BITS * layer);
 				moved = true;
+            }
+            else {
+				if (state.metadata.tween_length) {
+					newMovedEntities["p"+positionIndex+"-l"+layer] = layerMovement+100;
+				}
             }
         }
     }
@@ -11874,6 +11899,7 @@ function updateCameraPositionTarget() {
 function IsMouseGameInputEnabled() {
 	return state.metadata.mouse_left || state.metadata.mouse_up || state.metadata.mouse_drag || state.metadata.mouse_clicks;
 }
+
 </script>
 <script>
 /*

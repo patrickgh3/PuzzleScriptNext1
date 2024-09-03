@@ -1391,6 +1391,10 @@ var dirMaskName = {
 	18: 'random',
 	32: 'lclick',
 	64: 'rclick',
+    101: 'bump_up',
+    102: 'bump_down',
+    104: 'bump_left',
+    108: 'bump_right',
 	// todo: ??: 'mclick',
 	// todo: ??: 'reaction',
 };
@@ -1407,6 +1411,10 @@ var dirMasks = {
 	'random': 18,
 	'lclick': 32,
 	'rclick': 64,
+    'bump_up': 101,
+    'bump_down': 102,
+    'bump_left': 104,
+    'bump_right': 108,
 	// todo: 'mclick': ??,
 	// todo: 'reaction': ??,
 	'': 0
@@ -1423,7 +1431,11 @@ var dirMasksDelta = {
 	16: [0, 0],
 	18: [0, 0],
 	32: [0, 0],
-	64: [0, 0]
+	64: [0, 0],
+	101: [0, -1],
+	102: [0, 1],
+	104: [0, 0],
+	108: [-1, 0],
 };
 
 // utility functions
@@ -1586,6 +1598,11 @@ function repositionEntitiesAtCell(positionIndex) {
 
                 movementMask.ishiftclear(layerMovement, MOV_BITS * layer);
 				moved = true;
+            }
+            else {
+				if (state.metadata.tween_length) {
+					newMovedEntities["p"+positionIndex+"-l"+layer] = layerMovement+100;
+				}
             }
         }
     }

@@ -782,10 +782,16 @@ function redrawCellGrid(curlevel) {
                             var dir = currentMovedEntities["p"+posIndex+"-l"+layerID];
 
                             if (dir != 16) { //Cardinal directions
-                                var delta = dirMasksDelta[dir];
-            
-                                x -= cellwidth*delta[0]*tween
-                                y -= cellheight*delta[1]*tween
+                                if (dir < 100) {
+                                    var delta = dirMasksDelta[dir];
+                                    x -= cellwidth*delta[0]*tween
+                                    y -= cellheight*delta[1]*tween
+                                }
+                                else {
+                                    var delta = dirMasksDelta[dir-100];
+                                    x += cellwidth/5*delta[0]*tween
+                                    y += cellheight/5*delta[1]*tween
+                                }
                             } else if (dir == 16) { //Action button
                                 ctx.globalAlpha = 1-tween;
                             }

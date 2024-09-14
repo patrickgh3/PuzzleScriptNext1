@@ -220,7 +220,7 @@ var codeMirrorFn = function() {
         'background_color', 'color_palette', 'flickscreen', 'level_select_solve_symbol', 'keyhint_color', 
         'message_text_align', 'mouse_drag', 'mouse_left', 'mouse_rdrag', 'mouse_right', 'mouse_rup', 'mouse_up',
         'sitelock_hostname_whitelist', 'sitelock_origin_whitelist', 'sprite_size', 'text_color', 'tween_easing', 'zoomscreen',
-        'author_color', 'title_color'
+        'author_color', 'title_color', 'map_direction'
     ];
     const prelude_not_implemented = [
         'game_uri', 'level_title_style', 'show_level_title_in_menu', 
@@ -572,6 +572,8 @@ var codeMirrorFn = function() {
                     logError(`Prelude option "${errorCase(ident)}" requires exactly one argument, but you gave it ${args.length}.`, state.lineNumber);
                 else if (ident.includes('_color') && !isColor(args[0]))
                     logError(`Prelude option "${errorCase(ident)}" in incorrect format - found ${args[0]}, but I expect a color name (like 'pink') or hex-formatted color (like '#1412FA'). A default will be used.`, state.lineNumber);
+                else if (ident == "map_direction" && !(['up', 'right', 'down', 'left'].includes(args[0])))
+                    logError(`Prelude option "${errorCase(ident)}" in incorrect format - found ${args[0]}, but I expect one of: 'up' 'right' 'down' 'left.`, state.lineNumber);
                 else value = [ident, args[0]];
             } else if (prelude_param_multi.includes(ident)) {
                 if (args.length < 1)

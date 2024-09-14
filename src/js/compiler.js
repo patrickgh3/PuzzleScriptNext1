@@ -990,6 +990,79 @@ function extractSections(state) {
 	state.sections = sections;
 }
 
+function populateMap(state) {
+    // Check metadata for map direction
+    var trunk_dx = 1;
+    var trunk_dy = 0;
+    for (var i=0; i<state.metadata.length; i+=2) {
+        var key = state.metadata[i];
+        var val = state.metadata[i+1];
+        if (key == "map_direction") {
+            if (val == "up") {
+                trunk_dx = 0;
+                trunk_dy = -1;
+            }
+            else if (val == "right") {
+                trunk_dx = 1;
+                trunk_dy = 0;
+            }
+            else if (val == "down") {
+                trunk_dx = 0;
+                trunk_dy = 1;
+            }
+            else if (val == "left") {
+                trunk_dx = -1;
+                trunk_dy = 0;
+            }
+        }
+    }
+
+    // Hards go perpendicular to the trunk, so swap x and y
+    var hard_dx = trunk_dy;
+    var hard_dy = trunk_dx;
+
+    // Lay out everyone
+    var x = 0;
+    var y = 0;
+    var nodes = Array(state.sections.length);
+    var hards_accumulated = 0;
+    var prev_trunk_i = 0;
+    for (var i=0; i<state.sections.length; i++) {
+        var hard = (i % 5) == 0 || (i % 5) == 1;
+        if (i == 0 && hard) hard = false; // If you specify the first level has hard, that's not allowed, since we need to start off the trunk. Just turn it normal instead.
+
+        if (hard) {
+            // Move perpendicular along hard branch
+            x += hard_dx;
+            y += hard_dy;
+            nodes[i] = {x: x, y: y};
+            if (i > 0) link(i, i-1, nodes);
+            hards_accumulated += 1;
+        }
+        else {
+            if (hards_accumulated > 0) {
+                // Go back to trunk position
+                x -= hard_dx*hards_accumulated;
+                y -= hard_dy*hards_accumulated;
+                hards_accumulated = 0;
+
+                // Flip the other way for the next hard branch
+                hard_dx *= -1;
+                hard_dy *= -1;
+            }
+
+            // Move forward along trunk
+            x += trunk_dx;
+            y += trunk_dy;
+            nodes[i] = {x: x, y: y};
+            if (i > 0) link(i, prev_trunk_i, nodes);
+            prev_trunk_i = i;
+        }
+    }
+
+    state.map_nodes = nodes;
+}
+
 function convertSectionNamesToIndices(state) {
 	var sectionMap = {};
 	var duplicateSections = {};
@@ -3566,6 +3639,7 @@ function loadFile(str) {
 	generateMasks(state);
 	levelsToArray(state);
 	extractSections(state);
+    populateMap(state);
     rulesToArray(state);
     
     if (state.invalid>0){
@@ -3634,6 +3708,9 @@ var ifrm;
 
 // compile a script for editor or testing, run inputs and return state if valid
 function compile(command, text, randomseed) {
+    patrick_state = STATE_UNINIT;
+    redraw();
+
     matchCache = {};
     forceRegenImages = true;
     if (command === undefined) {
@@ -3745,8 +3822,8 @@ function compile(command, text, randomseed) {
     if (state) { //otherwise error
         setGameState(state, command, randomseed);
         clearInputHistory();
-
         patrick_state = STATE_MAP;
+        map_location = 0;
         redraw();
     }
     consoleCacheDump();

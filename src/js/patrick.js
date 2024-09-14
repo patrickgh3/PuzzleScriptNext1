@@ -17,27 +17,60 @@ function patrick_redraw_map() {
     ctx.fillStyle = state.bgcolor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    for (var i=0; i<state.sections.length; i++) {
+    // Sizes of things.
+    // Base them on the minimum of the canvas width/height so that they scale appropriately.
+    const w = Math.min(canvas.width, canvas.height)*0.15;
+    const h = w;
+    const visual_w = w*0.8;
+    const visual_h = w*0.8;
+    const round = w*0.15;
+    const ss = w*0.4;
+
+    // Determine camera offset based around the cursor selection
+    var camera_x_offset = canvas.width/2  - state.map_nodes[map_location].x * w;
+    var camera_y_offset = canvas.height/2 - state.map_nodes[map_location].y * h;
+
+    // Draw everyone (at camera offset)
+    for (var i=0; i<state.map_nodes.length; i++) {
+        var node = state.map_nodes[i];
+        var x = node.x * w + camera_x_offset;
+        var y = node.y * h + camera_y_offset;
+
         ctx.fillStyle = state.fgcolor;
         ctx.beginPath();
-        var x = 10+60*i;
-        var y = 80;
-        while (x > canvas.width) {
-            x -= canvas.width;
-            y += 80;
-        }
-        ctx.roundRect(x, y, 50, 50, 5);
+        ctx.roundRect(x-visual_w/2, y-visual_h/2, visual_w, visual_h, round);
         ctx.fill();
 
+        // Draw selector
         if (map_location == i) {
+            y -= visual_h/2;
             ctx.beginPath();
-            x += 25;
-            y -= 10;
             ctx.moveTo(x, y);
-            ctx.lineTo(x-20, y-20);
-            ctx.lineTo(x+20, y-20);
+            ctx.lineTo(x-ss, y-ss);
+            ctx.lineTo(x+ss, y-ss);
             ctx.lineTo(x, y);
             ctx.fill();
         }
+    }
+}
+
+function link(a, b, nodes) {
+    var A = nodes[a];
+    var B = nodes[b];
+    if (A.x < B.x) {
+        A.right = b;
+        B.left  = a;
+    }
+    else if (A.x > A.x) {
+        A.left  = b;
+        B.right = a;
+    }
+    else if (A.y < B.y) {
+        A.down = b;
+        B.up   = a;
+    }
+    else if (A.y > B.y) {
+        A.up   = b;
+        B.down = a;
     }
 }

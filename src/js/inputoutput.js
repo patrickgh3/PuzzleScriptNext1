@@ -1212,8 +1212,17 @@ function checkKey(e,justPressed) {
         {
             if (patrick_state == STATE_PLAY) {
                 patrick_state = STATE_MAP;
+
                 map_location = 0;
-                redraw();
+                for (var i=state.sections.length-1; i>=0; i--) {
+                    if (curLevelNo >= state.sections[i].firstLevel) {
+                        map_location = i;
+                        break;
+                    }
+                }
+
+                canvasResize();
+
                 return prevent(e)
             }
 			/*if (!titleScreen) {

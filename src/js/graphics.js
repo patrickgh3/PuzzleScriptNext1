@@ -1072,7 +1072,10 @@ function canvasResize(level) {
     flickscreen=state.metadata.flickscreen!==undefined;
     zoomscreen=state.metadata.zoomscreen!==undefined;
     smoothscreen=state.metadata.smoothscreen!==undefined;
-    if (textMode) {
+    if (patrick_state == STATE_MAP || patrick_state == STATE_UNINIT) {
+        screenwidth = TITLE_WIDTH;
+        screenheight = TITLE_HEIGHT;
+    } else if (textMode) {
         screenwidth = TITLE_WIDTH;
         screenheight = TITLE_HEIGHT;
     } else if (levelEditorOpened) {

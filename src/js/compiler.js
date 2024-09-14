@@ -3745,6 +3745,9 @@ function compile(command, text, randomseed) {
     if (state) { //otherwise error
         setGameState(state, command, randomseed);
         clearInputHistory();
+
+        patrick_state = STATE_MAP;
+        redraw();
     }
     consoleCacheDump();
 

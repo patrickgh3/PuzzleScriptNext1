@@ -136,6 +136,7 @@ ncp("./src", "./bin/", function (err) {
             console.log("running js minification");
 
             var files = [
+                "./src/js/patrick.js",
                 "./src/js/Blob.js",
                 "./src/js/FileSaver.js",
                 "./src/js/jsgif/LZWEncoder.js",
@@ -174,7 +175,8 @@ ncp("./src", "./bin/", function (err) {
                 "./src/js/addlisteners_editor.js",
                 "./src/js/solver.js",
                 "./src/js/FastPriorityQueue.js",
-                "./src/js/makegif.js"];
+                "./src/js/makegif.js"
+                ];
 
             var corpus = {};
             for (var i = 0; i < files.length; i++) {

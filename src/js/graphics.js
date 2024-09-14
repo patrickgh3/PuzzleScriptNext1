@@ -392,9 +392,18 @@ function redraw() {
     }
     if (debugSwitch.includes('perf')) console.log(`Redraw: ${JSON.stringify(perfCounters)}`);
 
-    if (textMode)
-        redrawTextMode();
-    else redrawCellGrid(curLevel);
+    if (patrick_state == STATE_UNINIT) {
+        patrick_redraw_uninit();
+    }
+    else if (patrick_state == STATE_MAP) {
+        patrick_redraw_map();
+    }
+    else if (patrick_state == STATE_PLAY) {
+        redrawCellGrid(curLevel)
+        //if (textMode)
+        //    redrawTextMode();
+        //else redrawCellGrid(curLevel);
+    }
 }
 
 // option to draw custom font text in cells could be a prelude setting if desired

@@ -1210,11 +1210,13 @@ function checkKey(e,justPressed) {
         }
         case 27://escape
         {
-        	if(solving) {
-        		stopSolving();
-        		break;
-        	}
-			if (!titleScreen) {
+            if (patrick_state == STATE_PLAY) {
+                patrick_state = STATE_MAP;
+                map_location = 0;
+                redraw();
+                return prevent(e)
+            }
+			/*if (!titleScreen) {
 				goToPauseScreen(); 
 				canvasResize();
 			} else if (!titleScreen || titleMode > 1) {
@@ -1234,7 +1236,7 @@ function checkKey(e,justPressed) {
 				}
 
 				return prevent(e)
-        	}
+        	}*/
         	break;
         }
         case 69: {//e
@@ -1334,6 +1336,8 @@ function checkKey(e,justPressed) {
     		input_throttle_timer=0;
     	}
     }
+
+    /*
     if (textMode) {
 		if(!throttle_movement) { //If movement isn't throttled, then throttle it anyway
 			if (!titleScreen && lastinput==inputdir && input_throttle_timer < repeatinterval) { //Don't throttle on level select
@@ -1411,19 +1415,40 @@ function checkKey(e,justPressed) {
     		}
     	}
 		return prevent(e);
-    } else {
-	    if (!againing && inputdir>=0) {
-            if (inputdir===4 && ('noaction' in state.metadata)) {
+    */
 
-            } else {
+    if (patrick_state == STATE_PLAY) {
+	    if (!againing && inputdir>=0) {
+            if (!(inputdir===4 && ('noaction' in state.metadata))) {
                 pushInput(inputdir);
                 if (processInput(inputdir)) {
                     redraw();
                 }
 	        }
-	       	return prevent(e);
     	}
     }
+
+    else if (patrick_state == STATE_MAP) {
+        if (inputdir == dirNames.indexOf('action')) {
+            patrick_state = STATE_PLAY;
+            gotoLevel(state.sections[map_location].firstLevel);
+            redraw();
+        }
+        else {
+            var dx = 0;
+            var dy = 0;
+            if (inputdir == dirNames.indexOf('left'))  dx = -1;
+            if (inputdir == dirNames.indexOf('right')) dx = 1;
+            if (inputdir == dirNames.indexOf('up'))    dy = -1;
+            if (inputdir == dirNames.indexOf('down'))  dy = 1;
+            if (dx != 0) {
+                map_location += dx;
+                map_location = clamp(map_location, 0, state.sections.length-1);
+                redraw();
+            }
+        }
+    }
+
 	return prevent(e);
 }
 

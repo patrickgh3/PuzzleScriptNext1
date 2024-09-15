@@ -43,34 +43,21 @@ function patrick_redraw_map() {
 
         // Draw selector
         if (map_location == i) {
-            y -= visual_h/2;
             ctx.beginPath();
-            ctx.moveTo(x, y);
-            ctx.lineTo(x-ss, y-ss);
-            ctx.lineTo(x+ss, y-ss);
-            ctx.lineTo(x, y);
+            ctx.moveTo(x,    y-visual_h/2);
+            ctx.lineTo(x-ss, y-visual_h/2-ss);
+            ctx.lineTo(x+ss, y-visual_h/2-ss);
+            ctx.lineTo(x,    y-visual_h/2);
             ctx.fill();
         }
-    }
-}
 
-function link(a, b, nodes) {
-    var A = nodes[a];
-    var B = nodes[b];
-    if (A.x < B.x) {
-        A.right = b;
-        B.left  = a;
-    }
-    else if (A.x > A.x) {
-        A.left  = b;
-        B.right = a;
-    }
-    else if (A.y < B.y) {
-        A.down = b;
-        B.up   = a;
-    }
-    else if (A.y > B.y) {
-        A.up   = b;
-        B.down = a;
+        // Draw solved indicator
+		const solved = (solvedSections.indexOf(state.sections[i].name) >= 0);
+        if (solved) {
+            ctx.fillStyle = "lime";
+            ctx.beginPath();
+            ctx.arc(x, y, visual_w*0.25, 0, 2*Math.PI);
+            ctx.fill();
+        }
     }
 }

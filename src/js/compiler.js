@@ -897,6 +897,7 @@ function levelsToArray(state) {
     //const links = {};
     //const targets = new Set();
     let section, title, description, gotoFlag;
+    var map_branch = false;
     
     if (state.levels.at(-1).length == 0)
         state.levels.pop();
@@ -938,15 +939,19 @@ function levelsToArray(state) {
 				lineNumber: level[2],
                 object: level[3]
             });
+		} else if (level[0] == 'map_branch') {
+            map_branch = true;
 		} else {
             if (gotoFlag && links.length == 0) 
                 logWarning('Level unreachable due to previous GOTO.', level[0]);
             level[1] = section; // todo: fix it
 			levels.push(levelFromString(state, level));
             levels.at(-1).title = title;
+            levels.at(-1).map_branch = map_branch;
             levels.at(-1).linksTop = links.length;
             ++levelNo;
             title = null;
+            map_branch = false;
 		}
 	});
     links.forEach(link => { //@@
@@ -975,7 +980,8 @@ function extractSections(state) {
 		if(level.section != lastSection) {
 			var o = {
 				name: level.section,
-				firstLevel: i
+				firstLevel: i,
+                map_branch: state.levels[i].map_branch
 			};
 			if(o.name == "__WIN__") {
 				state.winSection = o;
@@ -1028,8 +1034,12 @@ function populateMap(state) {
     var hards_accumulated = 0;
     var prev_trunk_i = 0;
     for (var i=0; i<state.sections.length; i++) {
-        var hard = (i % 5) == 0 || (i % 5) == 1;
-        if (i == 0 && hard) hard = false; // If you specify the first level has hard, that's not allowed, since we need to start off the trunk. Just turn it normal instead.
+        var hard = state.sections[i].map_branch;
+        if (i == 0 && hard) {
+            // If you specify the first level has hard, that's not allowed, since we need to start off the trunk. Just turn it normal instead.
+            logWarning("The first level has map_branch set, which doesn't make sense, as the first level needs to be on the main trunk. Disregarding.");
+            hard = false;
+        }
 
         if (hard) {
             // Move perpendicular along hard branch
@@ -1061,6 +1071,27 @@ function populateMap(state) {
     }
 
     state.map_nodes = nodes;
+}
+
+function link(a, b, nodes) {
+    var A = nodes[a];
+    var B = nodes[b];
+    if (A.x < B.x) {
+        A.right = b;
+        B.left  = a;
+    }
+    else if (A.x > B.x) {
+        A.left  = b;
+        B.right = a;
+    }
+    else if (A.y < B.y) {
+        A.down = b;
+        B.up   = a;
+    }
+    else if (A.y > B.y) {
+        A.up   = b;
+        B.down = a;
+    }
 }
 
 function convertSectionNamesToIndices(state) {

@@ -1438,21 +1438,20 @@ function checkKey(e,justPressed) {
     }
 
     else if (patrick_state == STATE_MAP) {
+        var dir_name = dirNames[inputdir];
+
+        // Play this level
         if (inputdir == dirNames.indexOf('action')) {
             patrick_state = STATE_PLAY;
-            gotoLevel(state.sections[map_location].firstLevel);
+            gotoLevel(map_location);
+            //gotoLevel(state.sections[map_location].firstLevel);
             redraw();
         }
-        else {
-            var dx = 0;
-            var dy = 0;
-            if (inputdir == dirNames.indexOf('left'))  dx = -1;
-            if (inputdir == dirNames.indexOf('right')) dx = 1;
-            if (inputdir == dirNames.indexOf('up'))    dy = -1;
-            if (inputdir == dirNames.indexOf('down'))  dy = 1;
-            if (dx != 0) {
-                map_location += dx;
-                map_location = clamp(map_location, 0, state.sections.length-1);
+        // Navigate the map
+        else if (['left', 'right', 'up', 'down'].includes(dir_name)) {
+            var node = state.map_nodes[map_location];
+            if (Object.hasOwn(node, dir_name)) {
+                map_location = node[dir_name];
                 redraw();
             }
         }

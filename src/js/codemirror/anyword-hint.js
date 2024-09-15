@@ -301,6 +301,7 @@
                             candlists.push(["MESSAGE_VERB","message"]);
                             candlists.push(["SECTION_VERB","section"]);
                             candlists.push(["GOTO_VERB"   ,"goto"   ]);
+                            candlists.push(["MAP_BRANCH_VERB","map_branch"]);
                         }
                         break;
                     }

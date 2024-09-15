@@ -951,7 +951,10 @@ function setGameState(_state, command, randomseed) {
 		    quittingTitleScreen=false;
 			titleMode = showContinueOptionOnTitleScreen() ? 1 : 0;
 
-			if (state.metadata.skip_title_screen!==undefined) {
+            patrick_state = STATE_MAP;
+            map_location = 0;
+
+			/*if (state.metadata.skip_title_screen!==undefined) {
 				consolePrint("skip_title_screen enabled, proceeding to do exactly as it says on the tin.")
 				if(state.metadata["continue_is_level_select"] !== undefined) {
 					gotoLevelSelectScreen();
@@ -960,10 +963,12 @@ function setGameState(_state, command, randomseed) {
 					nextLevel();
 				} else if(titleMode == 2) {
 					gotoLevel(titleSelection);
+                    patrick_state = STATE_PLAY;
 				}
 			} else {
 				generateTitleScreen();
-			}
+			}*/
+            generateTitleScreen();
 
 		    break;
 		}
@@ -990,6 +995,7 @@ function setGameState(_state, command, randomseed) {
 			    titleMode = 0;
 				showLayers = false;
 				loadLevelFromState(state,targetLevel,randomseed);
+                patrick_state = STATE_PLAY;
 				break;
 			}
 			break;	
@@ -1009,6 +1015,7 @@ function setGameState(_state, command, randomseed) {
 		    titleMode = 0;
 			showLayers = false;
 			loadLevelFromState(state,targetLevel,randomseed);
+            patrick_state = STATE_PLAY;
 			break;
 		}
 		case "levelline":
@@ -1029,6 +1036,7 @@ function setGameState(_state, command, randomseed) {
 				    titleMode = 0;
 					showLayers = false;
 					loadLevelFromState(state,i);
+                    patrick_state = STATE_PLAY;
 					break;
 				}
 			}

@@ -8961,7 +8961,10 @@ function setGameState(_state, command, randomseed) {
 		    quittingTitleScreen=false;
 			titleMode = showContinueOptionOnTitleScreen() ? 1 : 0;
 
-			if (state.metadata.skip_title_screen!==undefined) {
+            patrick_state = STATE_MAP;
+            map_location = 0;
+
+			/*if (state.metadata.skip_title_screen!==undefined) {
 				consolePrint("skip_title_screen enabled, proceeding to do exactly as it says on the tin.")
 				if(state.metadata["continue_is_level_select"] !== undefined) {
 					gotoLevelSelectScreen();
@@ -8970,10 +8973,12 @@ function setGameState(_state, command, randomseed) {
 					nextLevel();
 				} else if(titleMode == 2) {
 					gotoLevel(titleSelection);
+                    patrick_state = STATE_PLAY;
 				}
 			} else {
 				generateTitleScreen();
-			}
+			}*/
+            generateTitleScreen();
 
 		    break;
 		}
@@ -9000,6 +9005,7 @@ function setGameState(_state, command, randomseed) {
 			    titleMode = 0;
 				showLayers = false;
 				loadLevelFromState(state,targetLevel,randomseed);
+                patrick_state = STATE_PLAY;
 				break;
 			}
 			break;	
@@ -9019,6 +9025,7 @@ function setGameState(_state, command, randomseed) {
 		    titleMode = 0;
 			showLayers = false;
 			loadLevelFromState(state,targetLevel,randomseed);
+            patrick_state = STATE_PLAY;
 			break;
 		}
 		case "levelline":
@@ -9039,6 +9046,7 @@ function setGameState(_state, command, randomseed) {
 				    titleMode = 0;
 					showLayers = false;
 					loadLevelFromState(state,i);
+                    patrick_state = STATE_PLAY;
 					break;
 				}
 			}
@@ -13686,7 +13694,6 @@ var codeMirrorFn = function() {
                 toplevel = null;
             }
             const cmds = [ 'goto', 'level', 'link', 'message', 'section', 'title', 'map_branch', ];
-            console.log(symbols.start);
             if (cmds.includes(symbols.start))
                 state.levels.push([ symbols.start, symbols.text, state.lineNumber, symbols.link ]);
             else {
@@ -15160,7 +15167,7 @@ function populateMap(state) {
         var hard = state.sections[i].map_branch;
         if (i == 0 && hard) {
             // If you specify the first level has hard, that's not allowed, since we need to start off the trunk. Just turn it normal instead.
-            logWarning("The first level has map_branch set, which doesn't make sense, as the first level needs to be on the main trunk. Disregarding.");
+            logWarning("The first level has map_branch set, which doesn't make sense, as the first level needs to be on the main trunk.");
             hard = false;
         }
 
@@ -17862,8 +17869,8 @@ var ifrm;
 
 // compile a script for editor or testing, run inputs and return state if valid
 function compile(command, text, randomseed) {
-    patrick_state = STATE_UNINIT;
-    redraw();
+    //patrick_state = STATE_UNINIT;
+    //redraw();
 
     matchCache = {};
     forceRegenImages = true;
@@ -17976,9 +17983,6 @@ function compile(command, text, randomseed) {
     if (state) { //otherwise error
         setGameState(state, command, randomseed);
         clearInputHistory();
-        patrick_state = STATE_MAP;
-        map_location = 0;
-        redraw();
     }
     consoleCacheDump();
 

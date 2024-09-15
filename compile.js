@@ -136,12 +136,12 @@ ncp("./src", "./bin/", function (err) {
             console.log("running js minification");
 
             var files = [
-                "./src/js/patrick.js",
                 "./src/js/Blob.js",
                 "./src/js/FileSaver.js",
                 "./src/js/jsgif/LZWEncoder.js",
                 "./src/js/jsgif/NeuQuant.js",
                 "./src/js/jsgif/GIFEncoder.js",
+                "./src/js/patrick.js",
                 "./src/js/storagewrapper.js",
                 "./src/js/debug.js",
                 "./src/js/globalVariables.js",
@@ -195,6 +195,7 @@ ncp("./src", "./bin/", function (err) {
             fs.writeFileSync('./bin/js/scripts_compiled.js.map', result.map);
 
             files = [
+                "./src/js/patrick.js",
                 "./src/js/storagewrapper.js",
                 "./src/js/globalVariables.js",
                 "./src/js/debug_off.js",

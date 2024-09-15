@@ -1037,7 +1037,7 @@ function populateMap(state) {
         var hard = state.sections[i].map_branch;
         if (i == 0 && hard) {
             // If you specify the first level has hard, that's not allowed, since we need to start off the trunk. Just turn it normal instead.
-            logWarning("The first level has map_branch set, which doesn't make sense, as the first level needs to be on the main trunk. Disregarding.");
+            logWarning("The first level has map_branch set, which doesn't make sense, as the first level needs to be on the main trunk.");
             hard = false;
         }
 
@@ -3739,9 +3739,6 @@ var ifrm;
 
 // compile a script for editor or testing, run inputs and return state if valid
 function compile(command, text, randomseed) {
-    patrick_state = STATE_UNINIT;
-    redraw();
-
     matchCache = {};
     forceRegenImages = true;
     if (command === undefined) {
@@ -3853,9 +3850,6 @@ function compile(command, text, randomseed) {
     if (state) { //otherwise error
         setGameState(state, command, randomseed);
         clearInputHistory();
-        patrick_state = STATE_MAP;
-        map_location = 0;
-        redraw();
     }
     consoleCacheDump();
 

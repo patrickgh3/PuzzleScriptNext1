@@ -1770,7 +1770,6 @@ var codeMirrorFn = function() {
                 toplevel = null;
             }
             const cmds = [ 'goto', 'level', 'link', 'message', 'section', 'title', 'map_branch', ];
-            console.log(symbols.start);
             if (cmds.includes(symbols.start))
                 state.levels.push([ symbols.start, symbols.text, state.lineNumber, symbols.link ]);
             else {

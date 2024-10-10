@@ -1,0 +1,695 @@
+title Create Crates
+(author Patrick Traynor 2024-09)
+homepage www.cwpat.me/about
+mouse_left Click
+level_select
+level_select_solve_symbol v
+run_rules_on_level_start
+again_interval 0.1
+tween_length 0.05
+tween_easing linear
+status_line
+map_direction right
+
+( Inspired by flesh-handed hot casserole delivery bot by increpare: https://increpare.com/game/flesh-handed-hot-casserole-delivery-bot.html )
+
+( Thanks to PlasmaNapkin for additional level design )
+
+========
+OBJECTS
+========
+
+Background .
+#2B4F7B
+
+Player
+gray lightgray darkgray
+..1..
+11111
+11111
+.0.0.
+.2.2.
+
+Happy
+transparent
+0....
+.....
+.....
+.....
+.....
+
+HappyAfter
+transparent transparent transparent
+(lightgreen #B0EF28 #CEFE65)
+..0..
+00000
+00200
+.010.
+.0.0.
+
+Crate
+#D89B2D #E6B55B
+10000
+01000
+00100
+00010
+00001
+
+Hole
+#0A2D59 #072144 #041A36 #011124 #011124
+11111
+12222
+12333
+12344
+12344
+
+HoleBelow
+#0A2D59 #072144 #041A36 #011124 #011124
+11111
+12222
+12333
+12344
+12344
+
+FilledHole
+#362C1A #423621
+10000
+01000
+00100
+00010
+00001
+
+Goal
+green #A674C9
+.....
+.....
+..1..
+..0..
+.....
+
+Wall
+black
+
+Click
+pink
+
+MouseCursor
+white black
+10101
+01110
+11111
+01110
+10101
+
+PlaceCrate
+#D89B2D #E6B55B
+10000
+01000
+00100
+00010
+00001
+
+PlaceHole
+#0A2D59 #072144 #041A36 #011124 #011124
+00000
+11111
+12222
+12333
+12344
+
+PlaceGoal
+green black #A674C9
+11111
+11111
+11211
+11011
+11111
+
+PlacePlayer
+gray lightgray darkgray black
+33133
+11111
+11111
+30303
+32323
+
+PlaceEmpty
+transparent
+
+PlacePlayerGoal
+(lightgreen #B0EF28 black #CEFE65)
+gray lightgray darkgray black green #A674C9
+33133
+11111
+11511
+30403
+32323
+
+PlaceCrateGoal
+#D89B2D #E6B55B green #A674C9
+10000
+01000
+00300
+00210
+00001
+
+PlaceHoleGoal
+#0A2D59 #072144 #041A36 #011124 #011124 green #A674C9
+00000
+11111
+12622
+12533
+12344
+
+PlaceFX1
+white
+.0.0.
+0...0
+.....
+0...0
+.0.0.
+
+PlaceFX2
+white
+0...0
+.....
+.....
+.....
+0...0
+
+SadPlayer
+transparent
+0....
+.....
+.....
+.....
+.....
+
+SadPlayerAfter
+red
+..0..
+.....
+.....
+.....
+.....
+(..0..
+00000
+00000
+.0.0.
+.0.0.)
+
+SadGoal
+transparent
+0....
+.....
+.....
+.....
+.....
+
+SadGoalAfter
+red
+.....
+.....
+..0..
+.....
+....
+(.....
+.....
+..1..
+..0..
+.....)
+
+NoClick1
+red
+.....
+.0.0.
+..0..
+.0.0.
+.....
+
+NoClick2
+red
+.....
+.0.0.
+..0..
+.0.0.
+.....
+
+Won
+transparent
+
+WonSound
+transparent
+
+Confirmed
+transparent
+
+StatusZ
+transparent
+StatusY
+transparent
+StatusX
+transparent
+StatusW
+transparent
+StatusU
+transparent
+StatusT
+transparent
+
+=======
+LEGEND
+=======
+
+p = Player
+c = Crate
+g = Goal
+h = Hole
+# = wall
+1 = Goal and Crate
+2 = Goal and Hole
+3 = Goal and Player and Happy
+z = Hole and StatusZ
+y = Wall and StatusY
+x = Wall and StatusX
+w = Wall and StatusW
+u = Wall and StatusU
+t = Wall and StatusT
+! = MouseCursor
+@ = PlaceCrate
+$ = PlaceHole
+% = PlaceGoal
+& = PlacePlayer
+* = PlaceEmpty
+{ = PlacePlayerGoal
+} = PlaceCrateGoal
+' = PlaceHoleGoal
+Guard = Wall or MouseCursor or PlaceCrate or PlaceHole or PlaceGoal or PlacePlayer or PlaceEmpty or PlacePlayerGoal or PlaceCrateGoal or PlaceHoleGoal
+PlaceFX = PlaceFX1 or PlaceFX2
+NoClick = NoClick1 or NoClick2
+Statuses = StatusZ or StatusY or StatusX or StatusW or StatusU or StatusT
+
+=======
+SOUNDS
+=======
+
+(Crate)      sfx0 77178709
+(Hole)       sfx1 99555109
+(Goal)       sfx2 22490709
+(Player)     sfx3 65954109
+(Empty)      sfx4 65954109
+(PlayerGoal) sfx5 53847309
+(CrateGoal)  sfx6 99379709
+(HoleGoal)   sfx7 62394509
+
+(
+sfx0 36071109
+sfx1 76805709
+sfx2 54661709
+sfx3 81251709
+sfx4 9367309
+sfx5 93390109
+sfx6 13047109
+sfx7 11555509
+)
+
+
+(Crate fall in hole) sfx10 82264307
+(Win) sfx11 88806509
+( Post-win confirm ) sfx12 88470509
+Crate Move 51031507
+NoClick1 Create 84781107
+Endgame 80497509
+(Endgame 10282909)
+
+================
+COLLISIONLAYERS
+================
+
+Background
+HoleBelow
+FilledHole
+Player Crate Wall Hole
+Goal
+Click
+MouseCursor PlaceCrate PlaceHole PlaceGoal PlacePlayer PlaceEmpty PlacePlayerGoal PlaceCrateGoal PlaceHoleGoal
+SadPlayer SadGoal Happy
+SadPlayerAfter SadGoalAfter HappyAfter
+PlaceFX NoClick
+Won
+WonSound
+Confirmed
+Statuses
+
+======
+RULES
+======
+( no input after win )
+[ action Player ] [ Won ] -> [ Player Confirmed ] [ Won ] sfx12 status Continuing...
+[ action Player ] -> [ Player ]
+[ Won ] [ > Player ] -> [ Won ] [ Player ]
+[ Won ] [ Click ] -> [ Won ] [ ]
+
+( statuses )
+(
+[ Won ] [ Statuses ] -> [ Won ] [ ]
+[ StatusZ ] -> [ StatusZ ] status Please help robots get to flowers!
+[ StatusY ] -> [ StatusY ] status I can push crates into holes.
+[ StatusX ] -> [ StatusX ] status 
+[ StatusW ] -> [ StatusW ] status Ability unlocked: Click or tap on an empty spot to create a crate.
+[ StatusU ] -> [ StatusU ] status There must be no leftover sad robots or lonely flowers.
+[ StatusT ] -> [ StatusT ] status 
+)
+
+( animation )
+[ Crate HoleBelow ] -> [ FilledHole ] sfx10
+[ PlaceFX2 ] -> [ ]
+[ PlaceFX1 ] -> [ PlaceFX2 ] again
+[ NoClick1 ] -> [ NoClick2 ] again
+[ NoClick2 ] -> [ ]
+
+[ > Player ] [ HappyAfter     ] -> [ > Player ] [ ]
+[ > Player ] [ Happy          ] -> [ > Player ] [ ]
+[ Click    ] [ HappyAfter     ] -> [ Click    ] [ ]
+[ Click    ] [ Happy          ] -> [ Click    ] [ ]
+
+[ > Player ] [ SadPlayerAfter ] -> [ > Player ] [ ]
+[ > Player ] [ SadPlayer      ] -> [ > Player ] [ ]
+[ Click    ] [ SadPlayerAfter ] -> [ Click    ] [ ]
+[ Click    ] [ SadPlayer      ] -> [ Click    ] [ ]
+
+[ > Player ] [ SadGoalAfter   ] -> [ > Player ] [ ]
+[ > Player ] [ SadGoal        ] -> [ > Player ] [ ]
+[ Click    ] [ SadGoalAfter   ] -> [ Click    ] [ ]
+[ Click    ] [ SadGoal        ] -> [ Click    ] [ ]
+
+[ Happy ] -> [ HappyAfter ]
+[ SadGoal ] -> [ SadGoalAfter ]
+[ SadPlayer ] -> [ SadPlayerAfter ]
+
+( Place with mouse cursor )
+[ PlaceCrate ] [ Click no Guard ] -> [ PlaceCrate ] [ no FilledHole no Hole no Goal no Player no Crate Crate PlaceFX1 ] again sfx0
+
+[ PlaceHole ] [ Click no Guard ] -> [ PlaceHole ] [ no FilledHole no Hole no Goal no Player no Crate Hole PlaceFX1 ] again sfx1
+
+[ PlaceGoal ] [ Click no Guard ] -> [ PlaceGoal ] [ no FilledHole no Hole no Goal no Player no Crate Goal PlaceFX1 ] again sfx2
+
+[ PlacePlayer ] [ Click no Guard ] -> [ PlacePlayer ] [ no FilledHole no Hole no Goal no Player no Crate Player PlaceFX1 ] again sfx3
+
+[ PlaceEmpty ] [ Click no Guard ] -> [ PlaceEmpty ] [ no FilledHole no Hole no Goal no Player no Crate PlaceFX1 ] again sfx4
+
+[ PlacePlayerGoal ] [ Click no Guard ] -> [ PlacePlayerGoal ] [ no FilledHole no Hole no Goal no Player no Crate Player Goal PlaceFX1 ] again sfx5
+
+[ PlaceCrateGoal ] [ Click no Guard ] -> [ PlaceCrateGoal ] [ no FilledHole no Hole no Goal no Player no Crate Crate Goal PlaceFX1 ] again sfx6
+
+[ PlaceHoleGoal ] [ Click no Guard ] -> [ PlaceHoleGoal ] [ no FilledHole no Hole no Goal no Player no Crate Hole Goal PlaceFX1 ] again sfx7
+
+[ Click ] [ MouseCursor ] -> [ NoClick1 ] [ MouseCursor ] again
+[ Click ] -> [  ]
+
+
+( Movement logic )
+[ > Player | Crate ] -> [ > Player | > Crate ]
+[ > Crate | Hole ] -> [ > Crate | HoleBelow ] again
+
+( Wincond )
+late [ SadPlayer ] -> [ ]
+late [ SadGoal ] -> [ ]
+late [ Happy ] -> [ ]
+late [ Player Goal ] -> [ Player Goal Happy ] again
+late [ Player no Goal ] [ Happy ] -> [ Player SadPlayer ] [ Happy ] again
+late [ Goal no Player ] [ Happy ] -> [ Goal SadGoal ] [ Happy ] again
+
+( Wincond 2 )
+late [ HappyAfter ] [ ] -> [ HappyAfter ] [ Won ]
+late [ Won ] [ SadPlayer ] -> [ ] [ SadPlayer ]
+late [ Won ] [ SadGoal   ] -> [ ] [ SadGoal   ]
+late [ Won ] [ PlaceFX   ] -> [ ] [ PlaceFX   ]
+late [ Won no WonSound ] -> [ Won WonSound ] sfx11
+[ Won ] -> [ Won ] status Robot and flower have united! Press X.
+
+==============
+WINCONDITIONS
+==============
+
+some Confirmed
+
+(
+some HappyAfter
+no SadPlayer
+no SadGoal
+no PlaceFX
+)
+
+=======
+LEVELS
+=======
+
+section Intro 1
+(message Please help robots get to flowers!)
+(message Arrow keys to move, Z to undo, R to restart.)
+p...
+z...
+ghh.
+....
+
+section Intro 2
+(message Robots can push crates into holes.)
+p..y
+.c.#
+h.hh
+.chg
+(
+section Intro 3
+pc.h
+c##g
+.##g
+hp.x
+)
+section Create Crates 1
+(message Ability unlocked: Click on an empty spot to create a crate.)
+p...####w
+....###!#
+..hh###@#
+..hg#####
+
+section Create Crates 2
+p.h######
+##.####!#
+.h..###@#
+gh.######
+
+section Create Crates 3
+..hg#####
+..hh###!#
+hh..###@#
+ph..#####
+
+section Create Crates 4
+phhh#####
+hhhh###!#
+hhhh###@#
+hhhg#####
+
+section Create Crates 5
+map_branch
+p...######
+.hhh####!#
+.hcch###@#
+.hcgc#####
+##hch#####
+
+section Create Crates 6
+(message There must be no leftover sad robots or lonely flowers.)
+(message Hint: Happiness requires sacrifice.)
+p.p###!u
+.g.###@#
+..p#####
+
+section Create Crates 7
+g.g###!#
+.p.###@#
+..g#####
+
+section Create Crates 8
+p.cg#####
+...c###!#
+h...###@#
+gc.p#####
+
+( place holes )
+section Create Holes 1
+(message Ability changed: Click to create holes.)
+#.cp#####
+..#####!#
+.c.c###$#
+..cg#####
+
+section Create Holes 2
+p...#####
+.cc.###!#
+.cch###$#
+..h2#####
+
+section Create Holes 3
+pccc#####
+cccc###!#
+cccc###$#
+cccg#####
+
+( place goals )
+
+section Create Flowers 1
+(message Ability changed: Click to create flowers.)
+p..###!#
+.cc###%#
+.cg#####
+
+section Create Flowers 2
+..hp#####
+...h###!#
+h...###%#
+ph..#####
+
+section Create Flowers 3
+ppp###!#
+ppp###%#
+ppp#####
+
+section Create Flowers 4
+p3###!#
+3p###%#
+
+( place players )
+
+section Create Robots 1
+..hg#####
+...h###!#
+h...###&#
+gh..#####
+
+section Create Robots 2
+2..######
+2.c.###!#
+..c####&#
+...######
+
+section Create Robots 3
+ggg###!#
+ggg###&#
+ggg#####
+
+section Create Robots 4
+g3###!#
+3g###&#
+
+(gchg#####
+h..h###!#
+..hc###&#
+gh..#####)
+
+( place goal+crate )
+
+section Create Flowers+Crates 1
+(message Ability changed: Click to create flowers and crates at the same time!)
+ccc.#####
+.c..###!#
+c..c###}#
+cpcc#####
+
+section Create Flowers+Crates 2
+#p####!#
+p..###}#
+
+section Create Flowers+Crates 3
+p#####
+.###!#
+p###}#
+.#####
+p#####
+
+( place goal+hole )
+
+section Create Flowers+Holes 1
+(message Ability changed: Click to create flowers and holes at the same time!)
+...###!#
+pc####'#
+#..#####
+
+section Create Flowers+Holes 2
+pp..#####
+.#..###!#
+...c###'#
+..c.#####
+
+section Create Flowers+Holes 3
+p..p#####
+....###!#
+.cc.###'#
+p..p#####
+
+( place goal+player )
+
+section Create Flowers+Players 1
+(message Final level!)
+(message Ability changed: Click to create flowers and robots at the same time!)
+g2p###!#
+212###{#
+p2g#####
+
+(message Thank you for placing! :)
+
+(message Optional challenge levels follow:)
+
+section Challenge 1
+map_branch
+#.########
+#.c.p###!#
+#.######$#
+#...p#####
+gh########
+
+section Challenge 2
+map_branch
+p#gp#####
+p######!#
+..g####}#
+...######
+
+section Challenge 3
+map_branch
+p.p.p#####
+.....###!#
+p..c.###'#
+..cc.#####
+p....#####
+
+(message You're a master placer!)
+
+
+
+( place empty )
+
+(phc###!#
+##c###*#
+ghc#####)
+
+(h.h###!#
+.p.###}#
+h.h#####)
+
+(cchhp
+hhhhc
+chghc
+chhhh
+phccp)
+
+(ghhg#####
+h..h###!#
+...h###&#
+..hg#####)
+
+(ghhh#####
+.cpg###!#
+.hhh###@#
+..p.#####)

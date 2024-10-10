@@ -1,0 +1,1688 @@
+title Cats Carrying Cat Carriers
+author Patrick
+homepage cwpat.me/about
+noaction
+run_rules_on_level_start
+again_interval 0.05
+(verbose_logging)
+
+========
+OBJECTS
+========
+
+PlayerLeft
+white #99ddff
+0.0..
+101.0
+00000
+.0000
+.0..0
+
+PlayerRight
+white #99ddff
+..0.0
+0.101
+00000
+0000.
+0..0.
+
+PlayerLeftFront
+white #99ddff
+0.0..
+101.0
+00000
+.0000
+.0..0
+
+PlayerRightFront
+white #99ddff
+..0.0
+0.101
+00000
+0000.
+0..0.
+
+PlayerLeftSleep
+white lightgray
+.....
+0.0..
+11100
+00000
+.0000
+
+PlayerRightSleep
+white lightgray
+.....
+..0.0
+00111
+00000
+0000.
+
+
+EarsLeft
+white #99ddff
+0.0..
+101..
+0000.
+.000.
+.....
+
+EarsRight
+white #99ddff
+..0.0
+..101
+.0000
+.000.
+.....
+
+EarsLeftSleep
+white lightgray #99ddff lightgray
+.....
+0.0..
+1110.
+0000.
+.....
+
+EarsRightSleep
+white lightgray #99ddff lightgray
+.....
+..0.0
+.0111
+.0000
+.....
+
+Wall
+#3E3E47 #4F505B
+00000
+00000
+00100
+00000
+00000
+
+WallBox
+#3E3E47 #4F505B transparent
+11110
+12221
+12220
+02220
+01110
+
+WallBoxBack
+#1A1A21
+.....
+.000.
+.000.
+.000.
+.....
+
+Column
+#222
+0...0
+00..0
+0.0.0
+0..00
+0...0
+
+ColumnSpawn
+#555 #777 #444
+21102
+22102
+20202
+20022
+20002
+
+LightBox
+#cc8800 lightbrown #ffe26a transparent
+22222
+23330
+13330
+13330
+10000
+
+LightBoxBack
+#443413
+.....
+.000.
+.000.
+.000.
+.....
+
+LightBoxFull
+#cc8800 lightbrown #ffe26a
+22221
+22212
+11110
+11110
+11110
+
+HeavyBox
+#2a4a5a #557788 #3a5a6a
+11111
+2...0
+1...0
+1...0
+22220
+
+SpaceBox
+#5599dd #99ffff #3377aa transparent
+00002
+03332
+03332
+03332
+11111
+
+SpaceBoxBack
+#1A3346
+.....
+.000.
+.000.
+.000.
+.....
+
+(
+SubBox
+#cc8800 #BC5CB3 #dd77bb #eeaabb  #AE63A6
+.111.
+11111
+11.11
+11111
+11111
+
+SubBoxIn
+#cc8800 #BC5CB3 #dd77bb #eeaabb  #AE63A6
+.111.
+11111
+11.11
+11111
+11111
+)
+
+SubBox
+#cc8800 #BC5CB3 #dd77bb #eeaabb  #AE63A6
+.121.
+12112
+21121
+11211
+.211.
+
+SubBoxIn
+#cc8800 #BC5CB3 #dd77bb #eeaabb  #AE63A6
+.121.
+12112
+21121
+11211
+.211.
+
+GoalBox
+#66aa33 #99cc55 #cceeaa yellow transparent
+22222
+24440
+14440
+13330
+10000
+
+GoalBoxBack
+#35571C
+.....
+.000.
+.000.
+.000.
+.....
+
+Destroyer
+transparent
+
+DestroyAnim
+red
+0...0
+.0.0.
+..0..
+.0.0.
+0...0
+
+Fall
+white
+..0..
+.....
+..0..
+..0..
+.....
+
+KittyFell
+transparent
+
+Background
+transparent
+
+=======
+LEGEND
+=======
+
+. = Background
+X = Destroyer
+P = PlayerRight
+q = PlayerLeft
+w = Wall
+b = LightBox
+f = LightBoxFull
+H = HeavyBox
+U = SubBox
+S = SpaceBox
+g = GoalBox
+i = GoalBox and PlayerLeft
+j = SubBoxIn and LightBox
+c = ColumnSpawn
+y = WallBox
+Z = WallBox and PlayerLeft
+
+Box       = LightBox or HeavyBox or SpaceBox or GoalBox or SubBox or WallBox or LightBoxFull
+BoxPlusIn = LightBox or HeavyBox or SpaceBox or GoalBox or SubBox or WallBox or LightBoxFull or SubBoxIn
+NonSubBox = LightBox or HeavyBox or SpaceBox or GoalBox or WallBox or LightBoxFull
+BoxBack   = WallBoxBack or LightBoxBack or GoalBoxBack or SpaceBoxBack
+
+AwakePlayer = PlayerLeft or PlayerRight
+AsleepPlayer = PlayerLeftSleep or PlayerRightSleep
+NormalPlayer = AwakePlayer or AsleepPlayer
+Player = AwakePlayer or AsleepPlayer
+
+=======
+SOUNDS
+=======
+
+sfx0 92655104 ( fall )
+sfx1 51663307 ( sleep )
+sfx2 71379507 ( wake up )
+SubBox   move 19113307
+SubBoxIn move 19113307( 46998307 ) ( 4157507 ) ( 19113307 ) ( 95095107 )
+LightBox move horizontal 48637507 (31923907) (8532907) (66601707) (74914307)
+GoalBox move horizontal 48637507
+HeavyBox move horizontal 21074707 (31923107) (31775707) (56627307)
+SpaceBox move 20789507
+KittyFell create 42269104
+( CloseMessage 98030507 )
+( StartGame 98030507 )
+( Player move 26810507 )
+( misc nice sound 90518707 )
+
+================
+COLLISIONLAYERS
+================
+
+Background
+Column
+ColumnSpawn
+Destroyer
+
+BoxBack
+Player
+SubBoxIn
+LightBox HeavyBox SpaceBox GoalBox SubBox WallBox LightBoxFull
+EarsLeft EarsRight EarsLeftSleep EarsRightSleep PlayerLeftFront PlayerRightFront
+Wall
+
+Fall
+DestroyAnim
+KittyFell
+
+======
+RULES
+======
+
+( destroy fall )
+[ Fall ] -> [ ]
+
+( destroy ear visuals )
+[ EarsLeft         ] -> [ ]
+[ EarsRight        ] -> [ ]
+[ EarsLeftSleep    ] -> [ ]
+[ EarsRightSleep   ] -> [ ]
+[ PlayerLeftFront  ] -> [ ]
+[ PlayerRightFront ] -> [ ]
+[ BoxBack          ] -> [ ]
+
+( Flip cat sprite horizontally )
+[ left  PlayerRight no GoalBox ] -> [ left  PlayerLeft  ]
+[ right PlayerLeft  no GoalBox ] -> [ right PlayerRight ]
+( [ up Player no GoalBox ] -> [ up Player Fall ] )
+
+( Convert sleep to awake for sfx purposes )
+[ PlayerLeftSleep  ] -> [ PlayerLeft  ]
+[ PlayerRightSleep ] -> [ PlayerRight ]
+( On goal box, back to sleep, for sfx purposes )
+[ PlayerLeft  GoalBox ] -> [ PlayerLeftSleep  GoalBox ]
+[ PlayerRight GoalBox ] -> [ PlayerRightSleep GoalBox ]
+
+
+
+
+
+( Resolve players hitting walls BEFORE velocity gets applied,
+so that boxes don't get passed along when there's a line of kitties. )
+
+( Cancel player velocity if facing a wall. )
+[ > Player | Wall ] -> [ Player | Wall ]
+( Cancel player velocity if facing a player that the above rule or this rule just stopped. )
+[ > Player | stationary Player ] -> [ Player | Player ]
+
+( Cat falls asleep when inside goal box. )
+[ > Player GoalBox ] -> [ Player GoalBox ]
+( Player push sleeping player, even if the other one is asleep. )
+[ > Player | Player ] -> [ > Player | > Player ]
+
+
+
+
+
+( Players propagate their velocity to boxes they are inside. )
+horizontal [ > Player    LightBox ] -> [ > Player    > LightBox ]
+
+horizontal [ > Player    HeavyBox ] -> [ > Player    > HeavyBox ]
+
+horizontal [ > Player    GoalBox ] -> [ > Player    > GoalBox ]
+
+           [ > Player    SpaceBox ] -> [ > Player    > SpaceBox ]
+
+horizontal [ > Player SubBox ] -> [ > Player > SubBox ]
+( changed this rule to the one below due to stack of cats and 1 yarn
+causing yarn to trickle down as you press the up key repeatedly )
+up         [ > Player SubBox | NonSubBox ] -> [ > Player > SubBoxIn | NonSubBox ]
+(up         [ > Player SubBox ] -> [ > Player > SubBoxIn ])
+down       [ > Player SubBox ] -> [ > Player > SubBoxIn ]
+
+horizontal [ > Player SubBoxIn ] -> [ > Player > SubBoxIn ]
+up         [ > Player SubBoxIn ] -> [ > Player > SubBoxIn ]
+down       [ > Player SubBoxIn ] -> [ > Player > SubBoxIn ]
+
+
+
+
+( Player propagate their velocity to full boxes in front of them )
+[ > Player | LightBoxFull ] -> [ > Player | > LightBoxFull ]
+( SubBoxIn propagate their velocity to boxes in front of them, but only up. )
+up [ > SubBoxIn > Player | SubBox no HeavyBox no WallBox ] -> [ > SubBoxIn > Player | > SubBox ]
+( SubBoxIn from HeavyBox propagate velocity to boxes in front of them.
+This is a bandaid for dig yarn heavy level. )
+horizontal [ > SubBoxIn > Player | Box no HeavyBox no WallBox ] -> [ > SubBoxIn > Player | > Box ]
+( Boxes propagate their velocity to boxes in front of them. )
+[ > Box no HeavyBox no WallBox | Box no HeavyBox no WallBox ] -> [ > Box | > Box ]
+
+( TODO: Try out making Heavy boxes work differently, idea from stream )
+( TODO: Try out making Heavy boxes work differently, idea from stream )
+( TODO: Try out making Heavy boxes work differently, idea from stream )
+( TODO: Try out making Heavy boxes work differently, idea from stream )
+( TODO: Try out making Heavy boxes work differently, idea from stream )
+(
+light boxes count as infinitely light, and heavy boxes are so heavy you can only push 1 at a time.
+This requires "counting" / keeping track of how many heavy boxes you've encountered so far, which
+is a little weird.
+So for now let's only have heavy boxes in levels where there's no other box types.
+)
+
+
+( Resolve boxes hitting walls BEFORE velocity gets applied,
+so that a player plus subbox can move inside. )
+
+( Cancel box velocity if facing a wall. )
+[ > Box | Wall ] -> [ Box | Wall ]
+( Cancel box velocity if facing a box that the above rule or this rule just stopped. )
+[ > Box | stationary Box ] -> [ Box | Box ]
+( Cancel subboxin velocity if facing a subbox that the above rules or this rule just stopped. )
+[ > SubBoxIn | stationary SubBox ] -> [ SubBoxIn | SubBox ]
+[ > SubBoxIn | stationary SubBoxIn ] -> [ SubBoxIn | SubBoxIn ]
+
+( Restore horizontal velocity of any subbox on top of a moving player,
+and convert it to a SubBoxIn, to try to fit it inside. )
+horizontal [ > Player SubBox | no SubBox ] -> [ > Player > SubBoxIn | no SubBox ]
+
+( Boxes propagate their velocity to subboxins inside them. )
+[ > Box SubBoxIn ] -> [ > Box > SubBoxIn ]
+
+( Goal boxes propagate their velocity to players inside them. )
+[ > GoalBox Player ] -> [ > GoalBox > Player ]
+
+
+
+
+
+( Box and player gravity
+from: https://stuartspixelgames.com/2017/04/07/how-to-do-gravity-in-puzzle-script/ )
+[ > NormalPlayer ] -> [ > NormalPlayer ] again
+
+( just player falling. added for case of:
+box
+kitty
+kitty
+and then you jump up )
+down [ Player no Box no SubBoxIn | no Wall no Box no Player ] -> [ Fall | Player ] again
+
+( player with subboxin and box falls )
+down [ NormalPlayer no SpaceBox no WallBox SubBoxIn LightBox | no Wall no Box no Player ] -> [ Fall | NormalPlayer SubBoxIn LightBox ] again sfx0
+down [ NormalPlayer no SpaceBox no WallBox SubBoxIn HeavyBox | no Wall no Box no Player ] -> [ Fall | NormalPlayer SubBoxIn HeavyBox ] again sfx0
+down [ NormalPlayer no SpaceBox no WallBox SubBoxIn GoalBox | no Wall no Box no Player ] -> [ Fall | NormalPlayer SubBoxIn GoalBox ] again sfx0
+( player with subboxin fall )
+down [ NormalPlayer no SpaceBox no WallBox SubBoxIn | no Wall no Box no Player ] -> [ Fall | NormalPlayer SubBoxIn ] again sfx0
+
+( subboxin and box falls )
+down [ no Player no SpaceBox no WallBox SubBoxIn LightBox | no Wall no Box no Player ] -> [ Fall | SubBoxIn LightBox ] again sfx0
+down [ no Player no SpaceBox no WallBox SubBoxIn HeavyBox | no Wall no Box no Player ] -> [ Fall | SubBoxIn HeavyBox ] again sfx0
+down [ no Player no SpaceBox no WallBox SubBoxIn GoalBox  | no Wall no Box no Player ] -> [ Fall | SubBoxIn GoalBox ] again sfx0
+
+( player with subbox falls )
+down [ NormalPlayer SubBox | no Wall no Box no Player ] -> [ Fall | NormalPlayer SubBox ] again sfx0
+
+( player with other box falls )
+down [ NormalPlayer NonSubBox no SpaceBox no WallBox | no Wall no Box no Player ] -> [ Fall | NormalPlayer NonSubBox ] again sfx0
+
+
+( individual objects falling )
+down [ SubBox       no SpaceBox no WallBox | no Wall no Box no Player ] -> [ Fall | SubBox ] again sfx0
+down [ NormalPlayer no SpaceBox no WallBox | no Wall no Box no Player ] -> [ Fall | NormalPlayer ] again
+down [ LightBox | no Wall no Box no Player ] -> [ Fall | LightBox ] again sfx0
+down [ LightBoxFull | no Wall no Box no Player ] -> [ Fall | LightBoxFull ] again sfx0
+down [ HeavyBox | no Wall no Box no Player ] -> [ Fall | HeavyBox ] again sfx0
+down [ GoalBox  | no Wall no Box no Player ] -> [ Fall | GoalBox  ] again sfx0
+down [ SubBox   | no Wall no Box no Player ] -> [ Fall | SubBox   ] again sfx0
+
+( TODO: Do we need subboxin box no player fall? It looks like it just works... )
+
+
+
+
+
+( destroyer )
+[ Box    Destroyer ] -> [ Destroyer ]
+[ Player Destroyer ] -> [ Destroyer DestroyAnim KittyFell ]
+
+( Convert SubBoxIn back to SubBox. )
+late [ SubBoxIn no Box ] -> [ SubBox ]
+
+( create ear yarn visuals )
+(late [ PlayerLeft  SubBox   ] -> [ PlayerLeft  SubBox   EarsLeft    ]
+late [ PlayerRight SubBox   ] -> [ PlayerRight SubBox   EarsRight   ]
+late [ PlayerLeft  SubBoxIn ] -> [ PlayerLeft  SubBoxIn EarsLeftIn  ]
+late [ PlayerRight SubBoxIn ] -> [ PlayerRight SubBoxIn EarsRightIn ]
+late [ PlayerLeftSleep  SubBox   ] -> [ PlayerLeftSleep  SubBox   EarsLeft    ]
+late [ PlayerRightSleep SubBox   ] -> [ PlayerRightSleep SubBox   EarsRight   ]
+late [ PlayerLeftSleep  SubBoxIn ] -> [ PlayerLeftSleep  SubBoxIn EarsLeftIn  ]
+late [ PlayerRightSleep SubBoxIn ] -> [ PlayerRightSleep SubBoxIn EarsRightIn ])
+
+late [ PlayerLeft  Box   ] -> [ PlayerLeft  Box   EarsLeft    ]
+late [ PlayerRight Box   ] -> [ PlayerRight Box   EarsRight   ]
+late [ PlayerLeft  SubBox ] -> [ PlayerLeft  SubBox PlayerLeftFront  ]
+late [ PlayerRight SubBox ] -> [ PlayerRight SubBox PlayerRightFront ]
+(late [ PlayerLeft  SubBoxIn ] -> [ PlayerLeft  SubBoxIn EarsLeft  ]
+late [ PlayerRight SubBoxIn ] -> [ PlayerRight SubBoxIn EarsRight ])
+late [ PlayerLeftSleep  Box   ] -> [ PlayerLeftSleep  Box   EarsLeftSleep    ]
+late [ PlayerRightSleep Box   ] -> [ PlayerRightSleep Box   EarsRightSleep   ]
+late [ PlayerLeftSleep  SubBoxIn ] -> [ PlayerLeftSleep  SubBoxIn EarsLeftSleep  ]
+late [ PlayerRightSleep SubBoxIn ] -> [ PlayerRightSleep SubBoxIn EarsRightSleep ]
+
+( Player sleep sound )
+late [ PlayerLeft  GoalBox ] -> [ PlayerLeftSleep  GoalBox ] sfx1
+late [ PlayerRight GoalBox ] -> [ PlayerRightSleep GoalBox ] sfx1
+( Wake up sound )
+(
+late [ PlayerLeftSleep  no GoalBox ] -> [ PlayerLeftSleep  ] sfx2
+late [ PlayerRightSleep no GoalBox ] -> [ PlayerRightSleep ] sfx2
+)
+
+( Box backs )
+late [ WallBox  ] -> [ WallBox  WallBoxBack  ]
+late [ LightBox ] -> [ LightBox LightBoxBack ]
+late [ GoalBox  ] -> [ GoalBox  GoalBoxBack  ]
+late [ SpaceBox ] -> [ SpaceBox SpaceBoxBack ]
+
+
+
+
+( column spawn )
+[ ColumnSpawn ] -> [ Wall Column ]
+vertical [ Column | no Column ] -> [ Column | Column ] again
+
+
+
+
+
+==============
+WINCONDITIONS
+==============
+
+All Player On GoalBox
+Some Player
+No KittyFell
+
+=======
+LEVELS
+=======
+
+
+
+
+
+( intro )
+wwwwwwwwwwwwwwwwwwwwww
+w............wwwwwwwww
+w............wwwwwwwww
+w............w.yyy...w
+w.p..........w.y.....w
+wwww.....ywwyw.y....gw
+wwww.....ywwy..y..wwww
+wwwwww...ywwy..y..wwww
+wwwwwwwwwwwwwwwwwwwwww
+
+wwwwwwwwwwwwwwwwwww
+w.................w
+w.p...............w
+wwww..............w
+ww................w
+wwb....ww.........w
+wwwwwwwww...b....gw
+wwwwwwwww..bb...www
+wwwwwwwwwwwwww..www
+wwwwwwwwwwwwwwwwwww
+
+( TODO: level showing how boxes push in a line )
+
+( knock off the ledge )
+wwwwwwwwwww
+w.......www
+w...b...www
+w...b...www
+w...b...www
+w.p.b...www
+wwwwww..www
+www.......w
+www.......w
+www.......w
+www.......w
+www......gw
+www..ww.www
+www..ww.www
+www..ww.www
+www..ww.www
+wwwwwwwwwww
+
+( trash some boxes down bottomless pit )
+wwwwwwwww
+wwb.....w
+wwbbp...w
+wwbbb...w
+w.bbbb..w
+w.wwww..w
+w...g...w
+wwwwww..w
+wwwwww..w
+wwwwww..w
+wwwwwwxxw
+
+( efficient push left )
+wwwwwwwwww
+w....bwwww
+w....bwwww
+w....bwwww
+w....bwwww
+w....bwwww
+w....bwwww
+w....bwwww
+w....bwwww
+w....bwwww
+w..p.bg..w
+wwwwwww..w
+wwwwwww..w
+wwwwwwwxxw
+
+( small cardboard flying machine )
+wwwwwwwwwwww
+w..........w
+w.........gw
+w..b.....www
+w..bb.q..www
+wwwwwwwwwwww
+wwwwwwwwwwww
+
+( big cardboard flying machine )
+wwwwwwwwwwwww
+w...........w
+w..........gw
+w....b....www
+w....bb...www
+w...bbb...www
+wp..bbbb..www
+wwwwwwwwwwwww
+wwwwwwwwwwwww
+
+( multiple cats )
+wwwwwwwwwwwwww
+w..........www
+w.........gwww
+w........wwwww
+w............w
+w............w
+wy.p.p.p.p.p.w
+wwwwwwwwwggggw
+wwwwwwwwwwwwww
+
+wwwwwwwwwwwwwww
+wwwwwww..gwwwww
+wwwwwwwywwwwwww
+w...........www
+w...........www
+w...........www
+w...........www
+w...b..qqqq...w
+w..wwwgggwww..w
+w..wwwwwwwww..w
+wxxwwwwwwwwwxxw
+
+wwwwwwwwwwwwww
+w............w
+wb...........w
+ww.........b.w
+ww.......wgggw
+ww.......wwwww
+ww.b.ppp.wwwww
+wwwwwwwwwwwwww
+
+
+( ground stack )
+wwwwwwwwwww
+wwwg..wwwww
+wwwwwywwwww
+w.........w
+w.........w
+w.........w
+w.........w
+w..ppppp..w
+wggwwywwggw
+wwwwwwwwwww
+
+wwwwwwwwwwwwwwwwww
+wwwg..www...wwwwww
+wwwwwywww.wyqqqqqw
+ww........wwwwwwww
+ww........wwwwwwww
+ww........wwwwwwww
+ww........wwwwwwww
+wg........wwwwwwww
+wwwgwggwywwwwwwwww
+wwwwwwwwwwwwwwwwww
+
+( transport toxic box )
+wwwwwwwwwwwwwwwwwww
+w......g......wwwww
+w......g......wwwww
+w......g......wwwww
+w......g......wwwww
+w......g......wwwww
+wp.b.b.g.......wwww
+wwwwwwwwww.wwwybg.w
+wwwwwwwwww.www.wwqw
+wwwww.gbyy.yyy.wwww
+wwwwwpwwww.wwwwwwww
+wwwwwwwwww.wwwwwwww
+wwwwwwwwww.wwwwwwww
+wwwwwwwwww.wwwwwwww
+wwwwwwwwwwwwwwwwwww
+
+wwwwwwwwwwwwwww
+wpbgg.wwwwwwwww
+wywww.wwwwwwwww
+wybbb.wwwwwwwww
+wwwww.wwwwwwwww
+w...........www
+w...........www
+w...........www
+w...........www
+w...........www
+w.............w
+w...........wqw
+wwwwwwwwwwwwwww
+
+( don't press down )
+wwwwwwwwwwwwww
+w...wb.....www
+w.bbwbb....www
+w.bb.bb...qwww
+w.bbbbbbbbby.w
+wwwwwwwwwwww.w
+wwwgg..i.....w
+wwwwwwwzwwwwww
+wwwwwww.wwwwww
+wwwwwww.wwwwww
+wwwwwwwwwwwwww
+
+message Yarn
+
+( yarn intro )
+wwwwwwwwwww
+w...w....gw
+wuu.w....ww
+wwwyw....ww
+wwwy..p.yww
+wwwwwwwwwww
+
+( mutual assist )
+wwwwwwwwwwwwwwwww
+w..............gw
+w..............ww
+wu............yww
+ww.p.b........yww
+wwwwwy.ywww.wwwww
+wwwwwwwwwwwwwwwww
+
+( yarn pit )
+wwwwwwwwww
+w........w
+w........w
+w.p..b..gw
+wuuuwww.ww
+wwwwwww.ww
+wwwwwww.ww
+wwwwwwwwww
+
+( dig out yarn )
+wwwwwwwww
+wg......w
+ww......w
+ww......w
+ww......w
+ww......w
+wwybbqbbw
+wwwwwuwww
+wwwwwuwww
+wwwwwuwww
+wwwwwuwww
+wwwwwwwww
+
+( yarn bridge )
+wwwwwwwwwwwwww
+w...........gw
+w...........ww
+w..uu.......ww
+wp.bb.......ww
+wwwwww...wwwww
+wwwwwwwwwwwwww
+
+( move yarn to the other side tunnel )
+wwwwwwwwwwwww
+wwwwwwwww..gw
+wwwwwwwww..ww
+wwwwwwwww..ww
+wwwwwwwww..ww
+wwwww..ww..ww
+wpbuuuu....ww
+wwwwwwwwwwwww
+
+( carefully put yarn inside box )
+wwwwwwwwwwwww
+wwwwwwgwwwwww
+wwwwwwywwuwww
+w.......wywww
+w...........w
+w...........w
+w..u.p.b....w
+w.wwyyywwww.w
+w.wwwwwwwww.w
+wxwwwwwwwwwxw
+
+( composite yarn stack )
+wwwwwwwww
+w..u....w
+w..u....w
+w..u...gw
+w..u...ww
+w..u...ww
+wp.b...ww
+wwwwww.ww
+wwwwww.ww
+wwwwww.ww
+wwwwwwwww
+
+
+
+( kitty bridge )
+wwwwwcwcwwww
+w...........
+w..........g
+wpb.......ww
+wwww.wqw.www
+wwwwyyyyywww
+wwwwwwgwwwww
+wwwwwwwwwwww
+
+wwwwwwwwwwwwwwwwww
+w................w
+w................w
+w...............gw
+w.ppb..........www
+wgwwwwy......wwwww
+wwwwwwwwwywwwwwwww
+wwwwwwwwwwwwwwwwww
+
+( kitty flying machine )
+wwwwwwwwwwwwwwww
+wb..ppp......www
+wwwwwyww.....www
+wwwwwwww.....www
+wwwg.........www
+wwwg.........www
+wwwy..........gw
+wwwy..........ww
+wwwy.........www
+wwwy.........www
+wwwwwwwwwwwwwwww
+
+( dont press up or down )
+wwwwwwwwwwwwwww
+w..p.........ww
+w..b.........ww
+w..b.........ww
+w.bb.........gw
+wwww.wwwgwww.ww
+wwwwwwwwpwww.ww
+wwwwwwwwywww.ww
+wwwwwwwwwwwwwww
+
+
+
+( wake up intro )
+wwwwwwwwwww
+wwwwwwgwwww
+wwwuwwywwww
+wwwyw.....w
+w.........w
+w...pp..g.w
+wyyyyyyyyyw
+wwwwwwwwwww
+
+( more wake up vertically )
+wwwwwwwwwwwwww
+wwwww........w
+wwwww.pp.g...w
+wwwww.wwwwyyww
+ww..w....wwwww
+ww..w....wwwww
+w......b.gwwww
+wyywwwww.wwwww
+wwwwwwww.wwwww
+wwwwwwwwwwwwww
+
+wwwwwwwwwww
+wwwgwwwwwww
+w..y......w
+w.........w
+w.pp.g....w
+wwyywwwyyww
+wwwwwwwwwww
+
+( propagate yarn )
+wwwwwwwwwwwwwwwww
+wwwwwwzwwwwwwwwww
+wwwwwwywwwwwwwwww
+wg.......wqwwwwww
+ww.......wuwqqqww
+ww........g.gggbw
+wwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwww
+
+( yarn sleep order )
+wwwwwwwwwwwww
+wuuu.qqqqqqqw
+wwwwwwgwwwwww
+wwwyyygyyywww
+wwwywwgwwywww
+wwwyyygyyy.gw
+wwwywwgwwy.ww
+wwwywwgwwy.ww
+wwwywwywwy.ww
+wwwyyyywwwwww
+wwwwwwwwwwwww
+
+( yarn extraction )
+wwwwwwwwwww
+wwwwww...ww
+wg.pp....ww
+ww.wwywwuww
+ww.wwywwuww
+ww.wwywwuww
+wwwwwyyygyw
+wwwwwyyyyyw
+wwwwwwwwwww
+
+( wake up upward with yarn )
+wwwwwwwwwwwww
+w...........w
+w..........gw
+w.........www
+wppg......www
+wwwubb....www
+wwwwwwwwwwwww
+wwwwwwwwwwwww
+
+
+
+( space box )
+wwwwwwwwwwwww
+wg..........w
+ww..........w
+w......wwww.w
+w........ww.w
+w...s....ww.w
+w........ww.w
+wb..p....ww.w
+wwwwww.ywww.w
+wwwwwwwwwwg.w
+wwwwwwwwwwwqw
+wwwwwwwwwwwww
+
+wwwwwww
+ws....w
+w.....w
+w..s..w
+wp..wqw
+wgggwqw
+wwwwwww
+
+wwwwwwwwwwww
+w..........w
+w.b........w
+wpbb..s....w
+wwwww..wqwgw
+wwwww..wwwgw
+wwwwwwwwwwww
+
+( Ride )
+wwwwwwwwwwwww
+w...........w
+w.........ggw
+ws........www
+w.........www
+wpp.......www
+wwwyww.wwwwww
+wwwwwwwwwwwww
+
+wcwcwcwww
+ww....ggw
+ws....www
+w.....www
+w.....gww
+wppp..www
+wwwywwwww
+wwwwwwwww
+
+wccwwwwwww
+wpw.....gg
+wuw.....ww
+ws......ww
+ww.....qww
+wwwwwywwww
+wwwwwwwwww
+
+
+
+
+
+( BEGIN HARD BONUS PUZZLES )
+
+( yarn flying machine )
+wwwcwwcwwww
+w..........
+w.........g
+w........ww
+wp...b...ww
+ww..ub..www
+wwwwwwwwwww
+wwwwwwwwwww
+
+( sleepy flying machine )
+wwwwwwwwwwwwwww
+w..........wwww
+wb.ppp.....wwww
+wywwww.....wwww
+wwww.......wwww
+wwww...........
+wwww.........gg
+wwww....g..w.ww
+wwwwyyyyyyywwww
+wwwwwwwwwwwwwww
+
+( make space MAYBE BROKEN? )
+wwwwwwwwwwww
+wwwwwwwwwwww
+wwwwwww..q.w
+w.guuuuuuuuw
+w.wwwwyyyyyw
+w.wwwwwwwwww
+w.wwwwwwwwww
+wxwwwwwwwwww
+
+( escape stack )
+wwwwwwwww
+wwww.gwww
+wwww.wwww
+w.p...u.w
+w.u...u.w
+w.u...u.w
+w.u...u.w
+wwwyyywww
+wwwwwwwww
+
+( space flying machine )
+wwwwwwwwwww
+w.......g.w
+w.......w.w
+w.......w.w
+wss.....w.w
+wp...b..w.w
+www.wwwww.w
+wwwwwwwwwxw
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+( --------- old levels that got replaced ----------- )
+
+
+message You are a warehouse keeper
+
+message Today is Bring Your Cat To Work Day
+
+message This is the story of your cat
+
+message climbing in ur boxez
+
+message on a journey to nap in the comfiest box
+
+
+
+message Cowokers' cats cooperate, carefully collating cardboard containers.
+
+
+
+message And so, all the kitties got to take comfy naps.
+
+message ~ The End ~
+
+message Thank you for playing! :)
+
+message What follows are optional bonus puzzles.
+
+message They are more challenging, so be prepared!
+
+message Kitty's Delivery Service
+
+message You can easily wake up from a cat nap
+
+
+
+( heavy flying machine )
+wwwwwwwwwwww
+w..........w
+w..b.......w
+w..b.......w
+wp.h......gw
+wwww.....www
+wwww.....www
+wwwwwwwwwwww
+
+( don't drop goal down the pit OLD )
+wwcwwcwwwww
+w......wwww
+w.p...bwwww
+w.bb.bbwwww
+w.bbbbbg..w
+wwwwwwww..w
+wwwwwwww..w
+wwwwwwwwxxw
+
+( heavy doesnt push goal )
+wwwwcwwwcww
+wwwwwbh...w
+wwww.bbbq.w
+wwww.wwwwww
+wwww.wwwwww
+w..g.wwwwww
+w..wwwwwwww
+wxxwwwwwwww
+
+( two deep pit )
+wwcwwwwcw
+w........
+w....b...
+wp.hhb..g
+wwwwww.ww
+wwwwww.ww
+wwwwwwwww
+
+( two deep pit part 2 )
+wwcwwcwwcwww
+w...........
+wpbbb.......
+whhhhh.....g
+wwwwwww.w.ww
+wwwwwww.w.ww
+wwwwwwwwwwww
+
+( ground stack 2 )
+wwwwwwwwww
+w.........
+w........g
+w.......ww
+wppp....ww
+wwwwygwgww
+wwwwwwwwww
+
+( toxic box )
+wwwwcwwwwwcww
+wp......w...w
+wb......w...w
+wg...bhg....w
+wwwwwwwwwwwqw
+wwwwwwwwwwwww
+
+( sync retrieve, kinda okay )
+wwwcwwcwwwww
+w..........w
+wb.........w
+wggwwq..q..w
+wwwwwwwbw..w
+wwwwwwwww..w
+wwwwwwwwwxxw
+
+( dig yarn with heavy obsoleted by a better version of dig )
+wwcwcww
+whh...w
+whh..qw
+wwwwwuw
+wwwwwuw
+wwwwwuw
+wwww.uw
+wwww.ww
+wwww.ww
+w.g..ww
+w.wwwww
+wxwwwww
+
+( heavy two yarn stack )
+wwcwwcwwcww
+w.........w
+w....g....w
+w....w....w
+w....p....w
+w.u..h..u.w
+wwwwwwwwwww
+wwwwwwwwwww
+
+( kitty kitty flying machine eh )
+wwwcwwwcwwwwww
+w....w.....www
+w....p.b...www
+w..wwwww......
+w............g
+w..........w.w
+w........qqwww
+wwwhwwwwwggwww
+wwwwwwwwwwwwww
+
+( maybe redundant )
+wwwwwwwwwwwwww
+w............w
+w............w
+w............w
+w....b...wgggw
+w....b...wwwww
+wppp.b...wwwww
+wwwwwwwywwwwww
+wwwwwwwwwwwwww
+
+( two yarn stack )
+wcwwwwcww
+w........
+w.......g
+w......ww
+w...u..ww
+wp.bu..ww
+wwwwwwwww
+wwwwwwwww
+
+( yarn and two kitties )
+wwwwwwwwwwwww
+w...........w
+w...........w
+wu.......wggw
+wbbpp....wwww
+wwwww...wwwww
+wwwwwwwwwwwww
+
+wwwwwwwwwwwwww
+w............w
+w............w
+wb...........w
+wbppp....wgggw
+wwwww...wwwwww
+wwwwwwwwwwwwww
+
+( two part heavy yarn stack )
+wwwcwcwcwwww
+w..........w
+w....g.....w
+w....w....hw
+w..u......ww
+wp.bu.....ww
+wwwwwwwww.ww
+wwwwwwwwwwww
+
+( heavy )
+wwwwwwwwwwww
+w..........w
+w..........w
+wp..hhh...gw
+wwwwwww..www
+wwwwwwww.www
+wwwwwwwwwwww
+
+( heavy yarn bridge )
+wwwwwwwwwwwww
+w...........w
+w..........gw
+w.........www
+w..h...u..www
+wp.hh..hh.www
+wwwwwwwwwwwww
+
+( yarn propagate cheeseable )
+wwwwwwwww
+ww.qqqqqw
+wu.wywwww
+ww.wywwww
+ww.wywwww
+ww.wywwww
+ww.wywwww
+wwgwywwww
+wwgwywwww
+wwgwywwww
+wwgwyw.gw
+wwyyy..ww
+wwwwwwwww
+
+( wake up upward after flying machine )
+wwwwwwcwwwww
+w...........
+w..........g
+wppg......ww
+wwwbbb....ww
+wwwwwwwwwwww
+wwwwwwwwwwww
+
+( space box + heavy )
+wwwwcwwcwwww
+w..........w
+w.h........w
+wphh..s....w
+wwwww..wqwgw
+wwwww..wwwgw
+wwwwwwwwwwww
+
+( kitty box flying machine )
+wwcwwwcwwwww
+w...........
+w.........gg
+wb.......www
+wwwwb..qqwww
+wwwwwwwhwwww
+wwwwwwwwwwww
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+( -------------- ideas -------------- )
+
+
+
+
+( sea of cats )
+wwwwwwwwwwwwwwww
+wwwwwwwwwww....w
+wwwg..wwwww.b..w
+wwwwwywwww...q.w
+w....bbbbb.bqq.w
+w....b.qqqqqqq.w
+w.....bqqqqqqq.w
+w...qqqqqqqqqq.w
+w...qqqqqqqqqq.w
+wwwwwwwwwwwwywww
+wwwwwwwwwwwwwwww
+
+
+
+
+
+
+
+
+
+
+
+
+
+( sleepy delivery, wake up upward )
+( not sure about this one... )
+wwwwwwwwwwwwwwwwwww
+wwwwww.............
+wwpppw............g
+wpggg............ww
+wwwwwwhhhhhh.....ww
+wwwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwwww
+
+( old drop heavy got simplified )
+wwwwwwwwwwwww
+wwwwwwhb...ww
+w.....bb.q.ww
+w.....wwwwwww
+w.....wwwwwww
+w.....www...w
+w.....www.q.w
+w..gg.bbbbbbw
+w..wwwwwwwwww
+wxxwwwwwwwwww
+
+( walk on goal )
+wwwwwwwwwww
+w.........w
+w.........w
+wbp.g..gh.w
+wwwwwwwwwqw
+wwwwwwwwwww
+
+( wake up upward sleepy machine )
+wwwwwwwwwww
+wwwwwwwwwww
+wwpppw.....
+wwwwg.....g
+ww..g....ww
+ww.bbb...ww
+wwwhhwwwwww
+wwwwwwwwwww
+
+( old big heavy pile )
+wwwwwwwwwwww
+w...........
+w.....h....g
+w....hh...ww
+w....hhhh.ww
+wp...hhhh.ww
+wwwwwwwwwwww
+wwwwwwwwwwww
+
+( old cardboard intro )
+wwwwwwwwwwww
+w...........
+w...........
+w....b.....g
+wp..bb....ww
+wwwwwww...ww
+wwwwwwwwwwww
+
+( old first level )
+wwwwwwwwwwww
+w...........
+w...........
+w...........
+w...h......g
+wp..hh....ww
+wwwwwwww..ww
+wwwwwwwwwwww
+
+( dont drop goal down the pit, part 2)
+wwwwwwwww
+w........
+w........
+w..bbbw..
+w..bbbw..
+wp.bbbg..
+wwwwwww..
+wwwwwww..
+wwwwwww..
+wwwwwwwxx
+
+wwwwwwwww
+w........
+w....uw..
+w..bbbw..
+w..bbbw..
+wp.bbbg..
+wwwwwww..
+wwwwwww..
+wwwwwww..
+wwwwwwwXX
+
+( hard sync )
+wwwwwwwwwww
+w.........w
+w........gw
+w........ww
+wgbpp.wwwww
+wwwwwwwwwww
+wwwwwwwwwww
+
+( tide )
+wwwwwwwwwwww
+w.....w....w
+w.....w....w
+w.....w....w
+wp....w....w
+wwwwwbbbwwww
+w...wqqqw..w
+w...wwwww..w
+w..........w
+wwwwwwwwwwww
+
+( alt reason to stack 3 plus box )
+wwwwwwwwww
+www......w
+www......w
+www......w
+www.b.qqqw
+www.wwwwww
+w...ygwwww
+w....wwwww
+w.....wwww
+w.....wwww
+w..w..wwww
+w..w..wwww
+w..wggwwww
+wxxwwwwwww
+
+( cat bridge for box cheeseable )
+wwwwwwwwwwwwww
+w.............
+w............g
+w..b.pp.....ww
+w..wwwwwg.wwww
+w..wwwwwwwwwww
+wxxwwwwwwwwwww
+
+( stack C needs more experimenting )
+wwwwwwwwwwww
+w...........
+w..........g
+w.........ww
+w.........ww
+wp.p.p.p..ww
+wgwwgwhgwwww
+wwwwwwwwwwww
+wwwwwwwwwwww
+
+( kitty plus box flying machine )
+wwwwwwwwwwwww
+w..w.....wwww
+wpb......wwww
+wwwww........
+wwww.......gg
+wwww.....w.ww
+w...b..qqwwww
+wwwwwwgwwwwww
+wwwwwwwwwwwww
+
+( alt reason to kitty stack )
+wwwwwwwwwwww
+w...........
+w...........
+w...........
+w..........g
+w.....qqq.ww
+wb...wwwwwww
+wwwwgwwwwwww
+wwwwgwwwwwww
+wwwwwwwwwwww
+
+( alt reason to use heavy as stopper: reuse ladder )
+wwwwwwwwwwwwwww
+w.........w...w
+w.........w...w
+w.........w...w
+w........uw...w
+ww.wwwbwwww...w
+ww.wwwbwwww...w
+wwwwwwb.......w
+wwwwwwb.......w
+wwwwwwb..q.h..w
+wwwwwwwwwwwwwww
+wwwwwwwwwwwwwww
+
+( eh )
+wwwwwwwwwwww
+w...........
+w...........
+w...........
+w..........g
+ww........ww
+wbgu......ww
+wwwwwwwqqbww
+wwwwwwwwwwww
+
+
+( alt ending two deep pit? )
+(
+wwwwwwwwwwww
+w.gb.......w
+wpww.......w
+wwww.......w
+w..........w
+w..........w
+w..bb.....fw
+wp.hh...gwww
+wwwwww.wwwww
+wwwwww.wwwww
+wwwwwwwwwwww
+)
+
+
+
+( -------------- testing levels -------------- )
+wwwwwwwwwwwwwwww
+w..............w
+w..............w
+w..............w
+w....p.b.......w
+w....sbbb......w
+w..h..bbbb.....w
+w.hh..bbbb.u.gpw
+wwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwww
+
+wwwwwwwwwwwwwwww
+w..............w
+w..............w
+w.....p.p......w
+w.....u.u......w
+w..bbbbbbb.....w
+w..bbbbbbb.....w
+w..bbbbbbb.....w
+wwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwww
+
+wwwwwwwwwwwwwwww
+w..............w
+w..............w
+w..............w
+w....pu.u......w
+w..bbbbbbb.....w
+w..bbbbbbb.....w
+w..bbbbbbb.....w
+wwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwww
+
+wwwwwwwwwwwwwwww
+w..............w
+w.......f......w
+w....fffff.....w
+w..ffpufuf.....w
+w..bbbbbbb.....w
+w..bbbbbbb.....w
+w..bbbbbbb.....w
+wwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwww
+
+wwwwwwww
+w......w
+wbub.upw
+wwwwwwww
+w......w
+w.ub.upw
+wwwwwwww
+w......w
+wbuu..pw
+wwwwwwww
+w......w
+w.uu..pw
+wwwwwwww
+
+wwwwwwwwwwww
+w..........w
+w..........w
+w..........w
+w..........w
+w..qqq.qqq.w
+w..ggh.ggb.w
+wwwwwwwwwwww
+wwwwwwwwwwww
+
+wwwwwwwwwwwwwwwwwwwwww
+w.......s............w
+w....................w
+w....................w
+w...q...q............w
+w..qu...u...q..qq..q.w
+w..gh..gh..gu..gu..gqw
+wwwwwwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwwwwwww
+w....................w
+w..q....q....q.......w
+wujj.wuuj.wujuw......w
+wwwwwwwwwwwwwwwwwwwwww
